@@ -1,0 +1,31 @@
+{% extends "cores/base.html" %}
+{% block title %}
+  POST
+{% endblock %}
+
+{%block body%}
+
+<div class="max-w-3xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold text-center mb-4">Create Post</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="space-y-4">
+            <div>
+                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                <input type="file" name="image" id="image" class="mt-1 block w-full">
+            </div>
+            
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" name="title" id="title" class="mt-1 block w-full" placeholder="Enter the title">
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Create Post</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{%endblock%}

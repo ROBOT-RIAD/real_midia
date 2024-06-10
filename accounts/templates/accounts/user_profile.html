@@ -1,0 +1,63 @@
+{% extends "cores/base.html" %}
+{% block title %}
+  PROFILE
+{% endblock %}
+
+{% block body %}
+
+<div class="max-w-3xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
+  <h1 class="text-3xl font-bold text-center mb-4">{{ user_profile.first_name }} {{ user_profile.last_name }}</h1>
+  <p class="text-center text-gray-600 mb-6">@{{ user_profile.username }}</p>
+  <p class="text-center text-gray-600 mb-6">{{ user_profile.post.count }} post</p>
+
+  {% if request.user.is_authenticated %}
+    {% if is_following %}
+      <a href="{% url 'unfollow_user' user_profile.id %}" class="text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">UNFOLLOW</a>
+    {% else %}
+      <a href="{% url 'follow_user' user_profile.id %}" class="text-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">FOLLOW</a>
+    {% endif %}
+  {% endif %}
+  
+  <p class="text-center text-gray-600 mb-6">Follower: {{ user_profile.follower.count }}</p>
+  <p class="text-center text-gray-600 mb-6">Following: {{ user_profile.following.count }}</p>
+  
+  <div class="space-y-4">
+    {% if user_profile.account.image %}
+        <div>
+            <p><strong>Profile Picture:</strong></p>
+            <img src="{{ user_profile.account.image.url }}" alt="Profile Picture" class="rounded-full w-32 h-32 mx-auto">
+        </div>
+    {% else %}
+        <p><strong>Profile Picture:</strong> No picture uploaded.</p>
+    {% endif %}
+      <p><strong>Description:</strong> <span class="text-gray-800">{{ user_profile.account.description }}</span></p>
+      <p><strong>Email:</strong> <span class="text-gray-800">{{ user_profile.email }}</span></p>
+      <p><strong>Date of Birth:</strong> <span class="text-gray-800">{{ user_profile.account.date_of_birth }}</span></p>
+      <p><strong>Website:</strong> <a href="{{ user_profile.account.website }}" class="text-blue-500 hover:underline">{{ user_profile.website }}</a></p>
+      <p><strong>Facebook:</strong> <a href="{{ user_profile.account.facebook }}" class="text-blue-500 hover:underline">{{ user_profile.facebook }}</a></p>
+      <p><strong>LinkedIn:</strong> <a href="{{ user_profile.account.linkedin }}" class="text-blue-500 hover:underline">{{ user_profile.linkedin }}</a></p>
+  </div>
+  <br>
+  <br>
+
+  <div class="row">
+    {% for post in user_profile.post.all %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text"><small class="text-muted">Uploaded on {{ post.upload_date }}</small></p>
+          </div>
+            {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="width: 100%; height: 50%;">
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <br>
+    {% endfor %}
+</div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "cores/base.html" %}
+{% block title %}
+  PROFILE
+{% endblock %}
+
+{% block body %}
+
+<div class="max-w-3xl mx-auto mt-10 bg-white p-6 rounded-lg shadow-lg">
+  <h1 class="text-3xl font-bold text-center mb-4">{{ user_profile.user.first_name }} {{ user_profile.user.last_name }}</h1>
+  <p class="text-center text-gray-600 mb-6">@{{ user_profile.user.username }}</p>
+  <p class="text-center text-gray-600 mb-6">{{ user_profile.user.post.count }} post</p>
+  <p class="text-center text-gray-600 mb-6">Follower: {{ user_profile.user.follower.count }}</p>
+  <p class="text-center text-gray-600 mb-6">Following: {{ user_profile.user.following.count }}</p>
+  
+  <div class="space-y-4">
+    {% if user_profile.image %}
+        <div>
+            <p><strong>Profile Picture:</strong></p>
+            <img src="{{ user_profile.image.url }}" alt="Profile Picture" class="rounded-full w-32 h-32 mx-auto">
+        </div>
+    {% else %}
+        <p><strong>Profile Picture:</strong> No picture uploaded.</p>
+    {% endif %}
+      <p><strong>Description:</strong> <span class="text-gray-800">{{ user_profile.description }}</span></p>
+      <p><strong>Email:</strong> <span class="text-gray-800">{{ user_profile.user.email }}</span></p>
+      <p><strong>Date of Birth:</strong> <span class="text-gray-800">{{ user_profile.date_of_birth }}</span></p>
+      <p><strong>Website:</strong> <a href="{{ user_profile.website }}" class="text-blue-500 hover:underline">{{ user_profile.website }}</a></p>
+      <p><strong>Facebook:</strong> <a href="{{ user_profile.facebook }}" class="text-blue-500 hover:underline">{{ user_profile.facebook }}</a></p>
+      <p><strong>LinkedIn:</strong> <a href="{{ user_profile.linkedin }}" class="text-blue-500 hover:underline">{{ user_profile.linkedin }}</a></p>
+      <p><a href="{% url 'edit_bio' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">EDIT BIO</a></p>
+
+  </div>
+  <br>
+  <br>
+
+  <div class="row">
+    {% for post in user_profile.user.post.all %}
+    <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+              <h5 class="card-title">{{ post.title }}</h5>
+              <p class="card-text"><small class="text-muted">Uploaded on {{ post.upload_date }}</small></p>
+          </div>
+            {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="width: 100%; height: 50%;">
+            {% endif %}
+        </div>
+        <div class="flex mx-5">
+          <p><a href="" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">POST EDIT</a></p>
+          <p><a href="" class="bg-blue-500  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">DELETE</a></p>
+        </div>
+    </div>
+    <br>
+    <br>
+    {% endfor %}
+</div>
+
+</div>
+
+{% endblock %}
