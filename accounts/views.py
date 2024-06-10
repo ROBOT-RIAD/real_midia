@@ -29,7 +29,8 @@ class UserSignupView(FormView):
         user=form.save()
         token = default_token_generator.make_token(user)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
-        confirm_link =f"http://127.0.0.1:8000/accounts/active/{uid}/{token}"
+        # confirm_link =f"http://127.0.0.1:8000/accounts/active/{uid}/{token}"
+        confirm_link =f"https://real-midia.onrender.com/accounts/active/{uid}/{token}"
         email_subject = "Confirm your Email"
         email_body =render_to_string('accounts/confirm_email.html',{'confirm_link':confirm_link})
         email = EmailMultiAlternatives(email_subject,"",to =[user.email])
