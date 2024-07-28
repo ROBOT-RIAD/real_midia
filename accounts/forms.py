@@ -13,6 +13,7 @@ class UserSignupForm(UserCreationForm):
     def save(self,commit =True):
         our_user = super().save(commit=False)
         if commit:
+            our_user.is_active = False
             our_user.save()
         return our_user
     
@@ -46,7 +47,6 @@ class EditeProfileForm(forms.ModelForm):
     def save(self, commit=True):
         profile_instance = super().save(commit=False)
         if commit:
-            profile_instance.is_active = False
             profile_instance.save()
         return profile_instance
 
